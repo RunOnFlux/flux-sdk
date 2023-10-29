@@ -1,0 +1,27 @@
+{
+  "name": "flux-sdk",
+  "version": "1.0.0",
+  "description": "Flux SDK - interact with the Flux network",
+  "main": "./lib/index.js",
+  "repository": "https://github.com/runonflux/flux-sdk.git",
+  "author": "Tadeas Kmenta",
+  "license": "MIT",
+  "scripts": {
+    "test": "mocha tests --timeout 10000",
+    "lint": "eslint ./",
+    "lint:fix": "eslint ./ --fix"
+  },
+  "dependencies": {
+    "bitcoinjs-message": "https://github.com/runonflux/bitcoinjs-message",
+    "bs58check": "^3.0.1",
+    "create-hash": "^1.2.0",
+    "secp256k1": "^5.0.0"
+  },
+  "devDependencies": {
+    "chai": "^4.3.10",
+    "eslint": "^8.52.0",
+    "eslint-config-airbnb-base": "^15.0.0",
+    "eslint-plugin-import": "^2.29.0",
+    "mocha": "^10.2.0"
+  }
+}
