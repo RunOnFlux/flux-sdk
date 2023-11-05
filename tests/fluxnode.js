@@ -76,6 +76,6 @@ it('FluxNode - create start transaction v6 P2SH', () => {
   const fluxnodePrivateKey = '5JF3aGCa6bkPvfSzqtzX7fXFjfjUG4qzp9hdtRujLRE9ZAMfhiF';
   const timestamp = '1698522999'; // in seconds
   const redeemScript = '5221022180e3478446c3d8967bac969bc0a55ac094d28a479973bccc88c495fa576f9d2103abfa98505a1423498287e160a96163b6a1aa844fd7879c6263f1bd0e077e33f552ae';
-  const tx = fluxsdk.fluxnode.startFluxNodev6(collateralOutHash, collateralOutIndex, collateralPrivateKey, fluxnodePrivateKey, timestamp, true, redeemScript);
+  const tx = fluxsdk.fluxnode.startFluxNodev6(collateralOutHash, collateralOutIndex, collateralPrivateKey, fluxnodePrivateKey, timestamp, true, false, redeemScript);
   expect(tx).to.equal('060000000202000000716ac89cba466f1d1d56f1026f4e7c31f87b2f2d288598ee16f26ac25c3973a3000000004104f6c04f8a3569a518ec0987fc2544900e8a3f742a6e0d891a700d9a94482a0abdae64a1c106a4d4339963afd32391e0e660fabbc75c73200fc863287cfd54a7f2475221022180e3478446c3d8967bac969bc0a55ac094d28a479973bccc88c495fa576f9d2103abfa98505a1423498287e160a96163b6a1aa844fd7879c6263f1bd0e077e33f552ae77673d65411ffbfdd06c639a65fc782836d9a7ad9d05a1ac3b35b7fecf591e3e6e355e067b774171fa62d79d632942524442ea08f896f512ba15400c83190886f109ebb684d0');
 });
