@@ -1,5 +1,5 @@
 {
-  "name": "flux-sdk",
+  "name": "@runonflux/flux-sdk",
   "version": "1.0.0",
   "description": "Flux SDK - interact with the Flux network",
   "main": "./lib/index.js",
