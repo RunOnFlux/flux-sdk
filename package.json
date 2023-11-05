@@ -3,7 +3,10 @@
   "version": "1.0.0",
   "description": "Flux SDK - interact with the Flux network",
   "main": "./lib/index.js",
-  "repository": "https://github.com/runonflux/flux-sdk.git",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/runonflux/flux-sdk.git"
+  },
   "author": "Tadeas Kmenta",
   "license": "MIT",
   "scripts": {
@@ -12,7 +15,7 @@
     "lint:fix": "eslint ./ --fix"
   },
   "dependencies": {
-    "bitcoinjs-message": "https://github.com/runonflux/bitcoinjs-message",
+    "bitcoinjs-message": "git+https://github.com/runonflux/bitcoinjs-message.git",
     "bs58check": "^3.0.1",
     "create-hash": "^1.2.0",
     "secp256k1": "^5.0.0"
@@ -23,5 +26,23 @@
     "eslint-config-airbnb-base": "^15.0.0",
     "eslint-plugin-import": "^2.29.0",
     "mocha": "^10.2.0"
-  }
+  },
+  "bugs": {
+    "url": "https://github.com/runonflux/flux-sdk/issues"
+  },
+  "homepage": "https://github.com/runonflux/flux-sdk#readme",
+  "directories": {
+    "lib": "lib",
+    "test": "tests"
+  },
+  "keywords": [
+    "flux",
+    "blockchain",
+    "crypto",
+    "web3",
+    "fluxnodes",
+    "nodes",
+    "infrastructure",
+    "decentralized"
+  ]
 }
