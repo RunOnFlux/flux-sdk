@@ -99,7 +99,7 @@ describe('FluxNode Delegate Features', () => {
       collateralPrivateKey,
       fluxnodePrivateKey,
       timestamp,
-      delegatePublicKeys
+      delegatePublicKeys,
     );
 
     // The transaction should contain the delegate data serialized at the end
@@ -107,7 +107,7 @@ describe('FluxNode Delegate Features', () => {
     expect(tx.length).to.be.greaterThan(0);
     // Version 6, type 2, nFluxTxVersion with delegates (0x0101), then collateral hash
     // Delegate data: 01 (version), 01 (type UPDATE), 01 (num keys), 21 (33 bytes length), then pubkey
-    expect(tx.includes('01010101210279be667ef9dcbbac55a06295ce870b07029bfcdb2dce28d959f2815b16f81798')).to.be.true;
+    expect(tx.includes('01010101210279be667ef9dcbbac55a06295ce870b07029bfcdb2dce28d959f2815b16f81798')).to.equal(true);
   });
 
   it('FluxNode - startFluxNodeAddDelegate with multiple delegates', () => {
@@ -121,7 +121,7 @@ describe('FluxNode Delegate Features', () => {
     const delegatePublicKeys = [
       '0279be667ef9dcbbac55a06295ce870b07029bfcdb2dce28d959f2815b16f81798',
       '02c6047f9441ed7d6d3045406e95c07cd85c778e4b8cef3ca7abac09b95c709ee5',
-      '02f9308a019258c31049344f85f89d5229b531c845836f99b08601f113bce036f9'
+      '02f9308a019258c31049344f85f89d5229b531c845836f99b08601f113bce036f9',
     ];
 
     const tx = fluxsdk.fluxnode.startFluxNodeAddDelegate(
@@ -130,7 +130,7 @@ describe('FluxNode Delegate Features', () => {
       collateralPrivateKey,
       fluxnodePrivateKey,
       timestamp,
-      delegatePublicKeys
+      delegatePublicKeys,
     );
 
     expect(tx).to.be.a('string');
@@ -152,7 +152,7 @@ describe('FluxNode Delegate Features', () => {
         collateralPrivateKey,
         fluxnodePrivateKey,
         timestamp,
-        []
+        [],
       );
     }).to.throw('At least one delegate public key must be provided');
 
@@ -164,7 +164,7 @@ describe('FluxNode Delegate Features', () => {
         collateralPrivateKey,
         fluxnodePrivateKey,
         timestamp,
-        ['invalid_key']
+        ['invalid_key'],
       );
     }).to.throw('Invalid delegate public key format');
 
@@ -175,7 +175,7 @@ describe('FluxNode Delegate Features', () => {
         '02c6047f9441ed7d6d3045406e95c07cd85c778e4b8cef3ca7abac09b95c709ee5',
         '02f9308a019258c31049344f85f89d5229b531c845836f99b08601f113bce036f9',
         '03a0434d9e47f3c86235477c7b1ae6ae5d3442d49b1943c2b752a68e2a47e247c7',
-        '0388eb0e87ceecd650faa4d6dc90083c651a561a20da2dd2ec23ad70b973c23259'
+        '0388eb0e87ceecd650faa4d6dc90083c651a561a20da2dd2ec23ad70b973c23259',
       ];
       fluxsdk.fluxnode.startFluxNodeAddDelegate(
         collateralOutHash,
@@ -183,7 +183,7 @@ describe('FluxNode Delegate Features', () => {
         collateralPrivateKey,
         fluxnodePrivateKey,
         timestamp,
-        tooManyDelegates
+        tooManyDelegates,
       );
     }).to.throw('Too many delegate public keys. Maximum is 4');
   });
@@ -206,15 +206,15 @@ describe('FluxNode Delegate Features', () => {
       delegatePublicKeys,
       true,
       false,
-      redeemScript
+      redeemScript,
     );
 
     expect(tx).to.be.a('string');
     expect(tx.length).to.be.greaterThan(0);
     // Should have P2SH version bits set (0x02) and delegates feature bit (0x0100)
-    expect(tx.includes('02010000')).to.be.true;
+    expect(tx.includes('02010000')).to.equal(true);
     // Verify delegate data is included (with CompactSize length prefix for CPubKey)
-    expect(tx.includes('01010101210279be667ef9dcbbac55a06295ce870b07029bfcdb2dce28d959f2815b16f81798')).to.be.true;
+    expect(tx.includes('01010101210279be667ef9dcbbac55a06295ce870b07029bfcdb2dce28d959f2815b16f81798')).to.equal(true);
   });
 
   it('FluxNode - startFluxNodeAsDelegate', () => {
@@ -230,50 +230,50 @@ describe('FluxNode Delegate Features', () => {
       collateralOutIndex,
       delegatePrivateKey,
       fluxnodePrivateKey,
-      timestamp
+      timestamp,
     );
 
     expect(tx).to.be.a('string');
     expect(tx.length).to.be.greaterThan(0);
     // Should contain delegate data with type 2 (SIGNING)
-    expect(tx.includes('010102')).to.be.true; // version 1, type 2, no keys for SIGNING type
+    expect(tx.includes('010102')).to.equal(true); // version 1, type 2, no keys for SIGNING type
   });
 
   it('FluxNode - createDelegateData helper', () => {
     // Test UPDATE type with public keys
     const updateData = fluxsdk.fluxnode.createDelegateData(
       fluxsdk.fluxnode.DELEGATE_TYPE_UPDATE,
-      ['0279be667ef9dcbbac55a06295ce870b07029bfcdb2dce28d959f2815b16f81798']
+      ['0279be667ef9dcbbac55a06295ce870b07029bfcdb2dce28d959f2815b16f81798'],
     );
     expect(updateData).to.deep.equal({
       version: 1,
       type: 1,
-      delegatePublicKeys: ['0279be667ef9dcbbac55a06295ce870b07029bfcdb2dce28d959f2815b16f81798']
+      delegatePublicKeys: ['0279be667ef9dcbbac55a06295ce870b07029bfcdb2dce28d959f2815b16f81798'],
     });
 
     // Test SIGNING type
     const signingData = fluxsdk.fluxnode.createDelegateData(
-      fluxsdk.fluxnode.DELEGATE_TYPE_SIGNING
+      fluxsdk.fluxnode.DELEGATE_TYPE_SIGNING,
     );
     expect(signingData).to.deep.equal({
       version: 1,
-      type: 2
+      type: 2,
     });
 
     // Test NONE type
     const noneData = fluxsdk.fluxnode.createDelegateData(
-      fluxsdk.fluxnode.DELEGATE_TYPE_NONE
+      fluxsdk.fluxnode.DELEGATE_TYPE_NONE,
     );
     expect(noneData).to.deep.equal({
       version: 1,
-      type: 0
+      type: 0,
     });
 
     // Test UPDATE with private keys (should convert to public keys)
     const updateWithPrivKeys = fluxsdk.fluxnode.createDelegateData(
       fluxsdk.fluxnode.DELEGATE_TYPE_UPDATE,
       null,
-      ['KwDiBf89QgGbjEhKnhXJuH7LrciVrZi3qYjgd9M7rFU73sVHnoWn']
+      ['KwDiBf89QgGbjEhKnhXJuH7LrciVrZi3qYjgd9M7rFU73sVHnoWn'],
     );
     expect(updateWithPrivKeys.delegatePublicKeys).to.be.an('array');
     expect(updateWithPrivKeys.delegatePublicKeys[0]).to.have.lengthOf(66);
@@ -282,7 +282,7 @@ describe('FluxNode Delegate Features', () => {
   it('FluxNode - convertDelegatePrivateKeysToPublic', () => {
     const privateKeys = [
       'KwDiBf89QgGbjEhKnhXJuH7LrciVrZi3qYjgd9M7rFU73sVHnoWn',
-      'L17FU2CoD4joDmEp1xMbfuD6eQ8Yr8SEC2gjbcKktLs3DS3WCCxF'
+      'L17FU2CoD4joDmEp1xMbfuD6eQ8Yr8SEC2gjbcKktLs3DS3WCCxF',
     ];
 
     const publicKeys = fluxsdk.fluxnode.convertDelegatePrivateKeysToPublic(privateKeys);
@@ -291,8 +291,8 @@ describe('FluxNode Delegate Features', () => {
     expect(publicKeys).to.have.lengthOf(2);
     expect(publicKeys[0]).to.have.lengthOf(66); // Compressed public key
     expect(publicKeys[1]).to.have.lengthOf(66);
-    expect(publicKeys[0].startsWith('02') || publicKeys[0].startsWith('03')).to.be.true;
-    expect(publicKeys[1].startsWith('02') || publicKeys[1].startsWith('03')).to.be.true;
+    expect(publicKeys[0].startsWith('02') || publicKeys[0].startsWith('03')).to.equal(true);
+    expect(publicKeys[1].startsWith('02') || publicKeys[1].startsWith('03')).to.equal(true);
   });
 
   it('FluxNode - getPublicKeyFromPrivateKey', () => {
@@ -301,11 +301,11 @@ describe('FluxNode Delegate Features', () => {
     // Test compressed
     const compressedPubKey = fluxsdk.fluxnode.getPublicKeyFromPrivateKey(privateKey, true);
     expect(compressedPubKey).to.have.lengthOf(66);
-    expect(compressedPubKey.startsWith('02') || compressedPubKey.startsWith('03')).to.be.true;
+    expect(compressedPubKey.startsWith('02') || compressedPubKey.startsWith('03')).to.equal(true);
 
     // Test uncompressed
     const uncompressedPubKey = fluxsdk.fluxnode.getPublicKeyFromPrivateKey(privateKey, false);
     expect(uncompressedPubKey).to.have.lengthOf(130);
-    expect(uncompressedPubKey.startsWith('04')).to.be.true;
+    expect(uncompressedPubKey.startsWith('04')).to.equal(true);
   });
 });
