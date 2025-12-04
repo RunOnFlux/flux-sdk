@@ -1,6 +1,6 @@
 {
   "name": "@runonflux/flux-sdk",
-  "version": "1.0.3",
+  "version": "1.0.4",
   "description": "Flux SDK - interact with the Flux network",
   "main": "./lib/index.js",
   "repository": {
