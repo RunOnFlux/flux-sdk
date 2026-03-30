@@ -295,6 +295,72 @@ describe('FluxNode Delegate Features', () => {
     expect(publicKeys[1].startsWith('02') || publicKeys[1].startsWith('03')).to.equal(true);
   });
 
+  it('FluxNode - startFluxNodev6WithPubKey matches startFluxNodev6 (normal tx)', () => {
+    const collateralOutHash = 'e7e55985d4836edd7e664af167e8f729f021b1728ef121af3f5f02ae7ad1a686';
+    const collateralOutIndex = '0';
+    const collateralPrivateKey = 'L17FU2CoD4joDmEp1xMbfuD6eQ8Yr8SEC2gjbcKktLs3DS3WCCxF';
+    const fluxnodePrivateKey = '5JF3aGCa6bkPvfSzqtzX7fXFjfjUG4qzp9hdtRujLRE9ZAMfhiF';
+    const timestamp = '1698521898';
+
+    // Derive the public key from the private key (uncompressed, matching default)
+    const fluxnodePublicKey = fluxsdk.fluxnode.getFluxNodePublicKey(fluxnodePrivateKey, false);
+
+    const txOrig = fluxsdk.fluxnode.startFluxNodev6(collateralOutHash, collateralOutIndex, collateralPrivateKey, fluxnodePrivateKey, timestamp);
+    const txPubKey = fluxsdk.fluxnode.startFluxNodev6WithPubKey(collateralOutHash, collateralOutIndex, collateralPrivateKey, fluxnodePublicKey, timestamp);
+
+    expect(txPubKey).to.equal(txOrig);
+  });
+
+  it('FluxNode - startFluxNodev6WithPubKey matches startFluxNodev6 (P2SH tx)', () => {
+    const collateralOutHash = 'a373395cc26af216ee9885282d2f7bf8317c4e6f02f1561d1d6f46ba9cc86a71';
+    const collateralOutIndex = '0';
+    const collateralPrivateKey = 'L17FU2CoD4joDmEp1xMbfuD6eQ8Yr8SEC2gjbcKktLs3DS3WCCxF';
+    const fluxnodePrivateKey = '5JF3aGCa6bkPvfSzqtzX7fXFjfjUG4qzp9hdtRujLRE9ZAMfhiF';
+    const timestamp = '1698522999';
+    const redeemScript = '5221022180e3478446c3d8967bac969bc0a55ac094d28a479973bccc88c495fa576f9d2103abfa98505a1423498287e160a96163b6a1aa844fd7879c6263f1bd0e077e33f552ae';
+
+    const fluxnodePublicKey = fluxsdk.fluxnode.getFluxNodePublicKey(fluxnodePrivateKey, false);
+
+    const txOrig = fluxsdk.fluxnode.startFluxNodev6(collateralOutHash, collateralOutIndex, collateralPrivateKey, fluxnodePrivateKey, timestamp, true, false, redeemScript);
+    const txPubKey = fluxsdk.fluxnode.startFluxNodev6WithPubKey(collateralOutHash, collateralOutIndex, collateralPrivateKey, fluxnodePublicKey, timestamp, true, redeemScript);
+
+    expect(txPubKey).to.equal(txOrig);
+  });
+
+  it('FluxNode - startFluxNodev6WithPubKey matches startFluxNodev6 (P2SH with delegates)', () => {
+    const collateralOutHash = 'a373395cc26af216ee9885282d2f7bf8317c4e6f02f1561d1d6f46ba9cc86a71';
+    const collateralOutIndex = '0';
+    const collateralPrivateKey = 'L17FU2CoD4joDmEp1xMbfuD6eQ8Yr8SEC2gjbcKktLs3DS3WCCxF';
+    const fluxnodePrivateKey = '5JF3aGCa6bkPvfSzqtzX7fXFjfjUG4qzp9hdtRujLRE9ZAMfhiF';
+    const timestamp = '1698522999';
+    const redeemScript = '5221022180e3478446c3d8967bac969bc0a55ac094d28a479973bccc88c495fa576f9d2103abfa98505a1423498287e160a96163b6a1aa844fd7879c6263f1bd0e077e33f552ae';
+    const delegateData = { version: 1, type: 1, delegatePublicKeys: ['0279be667ef9dcbbac55a06295ce870b07029bfcdb2dce28d959f2815b16f81798'] };
+
+    const fluxnodePublicKey = fluxsdk.fluxnode.getFluxNodePublicKey(fluxnodePrivateKey, false);
+
+    const txOrig = fluxsdk.fluxnode.startFluxNodev6(collateralOutHash, collateralOutIndex, collateralPrivateKey, fluxnodePrivateKey, timestamp, true, false, redeemScript, delegateData);
+    const txPubKey = fluxsdk.fluxnode.startFluxNodev6WithPubKey(collateralOutHash, collateralOutIndex, collateralPrivateKey, fluxnodePublicKey, timestamp, true, redeemScript, delegateData);
+
+    expect(txPubKey).to.equal(txOrig);
+  });
+
+  it('FluxNode - startFluxNodev6WithPubKey with compressed pubkey', () => {
+    const collateralOutHash = 'e7e55985d4836edd7e664af167e8f729f021b1728ef121af3f5f02ae7ad1a686';
+    const collateralOutIndex = '0';
+    const collateralPrivateKey = 'L17FU2CoD4joDmEp1xMbfuD6eQ8Yr8SEC2gjbcKktLs3DS3WCCxF';
+    const fluxnodePrivateKey = '5JF3aGCa6bkPvfSzqtzX7fXFjfjUG4qzp9hdtRujLRE9ZAMfhiF';
+    const timestamp = '1698521898';
+
+    // Use compressed public key (33 bytes / 66 hex chars)
+    const fluxnodePublicKeyCompressed = fluxsdk.fluxnode.getFluxNodePublicKey(fluxnodePrivateKey, true);
+    expect(fluxnodePublicKeyCompressed).to.have.lengthOf(66);
+
+    const txOrig = fluxsdk.fluxnode.startFluxNodev6(collateralOutHash, collateralOutIndex, collateralPrivateKey, fluxnodePrivateKey, timestamp, true, true);
+    const txPubKey = fluxsdk.fluxnode.startFluxNodev6WithPubKey(collateralOutHash, collateralOutIndex, collateralPrivateKey, fluxnodePublicKeyCompressed, timestamp, true);
+
+    expect(txPubKey).to.equal(txOrig);
+  });
+
   it('FluxNode - getPublicKeyFromPrivateKey', () => {
     const privateKey = 'KwDiBf89QgGbjEhKnhXJuH7LrciVrZi3qYjgd9M7rFU73sVHnoWn';
 
