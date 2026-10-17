@@ -5,7 +5,7 @@
   "main": "./lib/index.js",
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/runonflux/flux-sdk.git"
+    "url": "git+https://github.com/RunOnFlux/flux-sdk.git"
   },
   "author": "Tadeas Kmenta",
   "license": "MIT",
